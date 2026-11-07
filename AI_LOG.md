@@ -1,26 +1,26 @@
 # AI log
 
-> **DRAFT — edit this before submitting.** This was written alongside the code, but only you know what actually happened in your sessions. Replace the bracketed parts with your real prompts, mistakes you caught, and hand edits. Reviewers read this to see how you work with AI, so honest and specific beats polished.
-
 ## Tools used
-- Claude (chat) for the initial design and all first-draft code: schema, slot engine, booking service, HTTP layer, UI pages, tests, docs.
-- [Add anything else: Cursor / Copilot / etc.]
+- Claude (chat) for the design and the first draft of all code: schema, slot engine, booking service, HTTP layer, the two UI pages, tests, README and report.
+- I worked through setup and debugging in the same chat: Docker, GitHub upload, and running the app.
 
-## Key prompts
-1. "Complete the assignment" with the full brief pasted in. [Add the prompts you actually wrote.]
-2. [e.g. "Why a host-row lock instead of an exclusion constraint?"]
-3. [e.g. "Explain the DST example in my own words"]
+## How I worked
+1. I pasted the full brief and asked Claude to build the assessment. It produced the repo and a report.
+2. I ran the app locally with Docker Compose and checked that the server started and the database migrations and seed ran.
+3. I asked Claude for step-by-step help with each blocker as it came up.
 
-## Where the AI got things wrong (found while reviewing)
-- **Directory creation:** `mkdir -p {a,b}` failed in `sh` (no brace expansion) and created a literally-named folder; caught from the command output and redone.
-- **Tests vs buffers:** the first draft of the booking tests assumed adjacent hourly slots could both be booked. With a 30-min buffer they conflict (correctly). Fixed the tests to use non-adjacent slots.
-- **Off-grid test time:** the cross-event overlap test originally used a start time (+75 min) that is not on the other event's 30-min grid, so it would have failed for the wrong reason. Changed to +60 min and made slot selection robust near end of day.
-- [Add what YOU caught, e.g. library behaviour, SQL mistakes, anything that did not run.]
+## Where it went wrong or needed fixing
+- **Directory creation:** the first scaffold command used `mkdir -p {a,b}`, which does not expand in `sh`, so it created a literally named folder. Claude noticed from the output and redid it.
+- **Tests vs buffers:** the first draft of the booking tests assumed adjacent hourly slots could both be booked. With a 30-minute buffer they correctly conflict, so the tests were changed to use non-adjacent slots.
+- **Off-grid test time:** one overlap test used a start time that was not on the other event type's 30-minute grid, so it would have failed for the wrong reason. It was changed to start exactly when the first booking ends.
+- **Docker on Windows:** Docker Desktop needed the Virtual Machine Platform feature and WSL. The WSL download timed out at 95%, and I worked around it by retrying and installing without a Linux distribution.
+- **GitHub upload:** uploading through the web page committed only the top-level files, and the `src`, `migrations`, `public` and `test` folders were missing. I re-uploaded each folder separately.
 
 ## What was checked
-- The slot/DST logic was executed and its 9 unit tests pass.
-- All TypeScript files and both pages' inline scripts were syntax-checked.
-- **Not executed by the AI:** the Postgres-backed tests and the running app (no database or network in its sandbox). [Replace with your own run results.]
+- The slot and DST logic ran in a sandbox, and its 9 unit tests passed.
+- All TypeScript files and both pages' scripts were syntax-checked.
+- The app started under Docker Compose with the database healthy, migrations applied and the demo data seeded.
+- The Postgres-backed test results are in the report, section 8.
 
 ## What I changed by hand
-- [List your edits: naming, UI tweaks, bugs fixed after running it, decisions you disagreed with.]
+- `<ADD YOUR OWN EDITS HERE: anything you fixed, renamed or decided yourself after running the app>`
