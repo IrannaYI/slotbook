@@ -2,7 +2,7 @@
 
 ## 1. Links
 
-- **GitHub repo:** `<PASTE YOUR PUBLIC REPO URL HERE>`
+- **GitHub repo:** https://github.com/IrannaYI/slotbook
 - **Live URL:** none (not deployed; runs with `docker compose up`)
 
 Stack: TypeScript, Fastify, plain SQL on Postgres 16 (`pg` driver), vanilla HTML/JS front end. No Redis or external lock service.
@@ -124,7 +124,7 @@ None built. Time was spent on the core and its reliability. The outbox table is 
 - `test/slots.test.ts` (9 tests, no database): Kolkata offset, spring-forward and fall-back days, multiple windows, day-off and custom-hours overrides, window-end clipping, minimum notice and horizon. **These were executed during development and pass.**
 - `test/booking.test.ts` (14 tests, real Postgres): concurrency, capacity, buffers across event types, idempotency, expiry, confirm/cancel/reschedule, validation.
 - Run: `docker compose up -d db` then `DATABASE_URL=… npm test`.
-- **Results to fill in after you run the suite:** `<PASTE test output here>`. The Postgres-backed tests were written but not executed in the environment where the code was drafted (no database available), so run them before submitting.
+- **Results:** `<PASTE the output of npm test here>`. The 9 slot tests were executed while drafting and passed. The Postgres-backed tests need a database, so their results must come from your own run.
 - Load test and Playwright tests: not built.
 
 ## 9. Using AI
