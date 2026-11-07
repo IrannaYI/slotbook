@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres:16
+    environment: { POSTGRES_USER: slotbook, POSTGRES_PASSWORD: slotbook, POSTGRES_DB: slotbook }
+    ports: ["5432:5432"]
+    healthcheck: { test: ["CMD-SHELL", "pg_isready -U slotbook"], interval: 2s, timeout: 3s, retries: 20 }
+  app:
+    build: .
+    environment:
+      DATABASE_URL: postgres://slotbook:slotbook@db:5432/slotbook
+      SESSION_SECRET: change-me-in-prod
+    ports: ["3000:3000"]
+    depends_on: { db: { condition: service_healthy } }
